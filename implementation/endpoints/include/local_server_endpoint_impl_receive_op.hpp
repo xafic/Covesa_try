@@ -26,9 +26,9 @@ struct storage :
     socket_type_t &socket_;
     receive_handler_t handler_;
     byte_t *buffer_;
-    std::size_t length_;
-    uid_t uid_;
-    gid_t gid_;
+    size_t length_;
+    uid_t uid_ = ANY_UID;
+    gid_t gid_ = ANY_GID;
     size_t bytes_;
 
     storage(
