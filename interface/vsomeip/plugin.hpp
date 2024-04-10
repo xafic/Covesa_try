@@ -44,6 +44,18 @@ public:
     virtual uint32_t get_plugin_version() const = 0;
     virtual const std::string &get_plugin_name() const = 0;
     virtual plugin_type_e get_plugin_type() const = 0;
+
+    virtual void *get_plugin_impl_ptr() = 0;
+
+    template <typename T>
+    std::shared_ptr<T> get_ptr() {
+        T *configuration_plugin_ptr = reinterpret_cast<T *>(get_plugin_impl_ptr());
+
+        std::shared_ptr<T> plugin_sp(configuration_plugin_ptr, [](T *) {
+        });
+
+        return std::dynamic_pointer_cast<T>(plugin_sp);
+    }
 };
 
 template<class Plugin_>
@@ -60,15 +72,15 @@ public:
         type_ = _type;
     }
 
-    const std::string &get_plugin_name() const {
+    const std::string &get_plugin_name() const override {
         return name_;
     }
 
-    uint32_t get_plugin_version() const {
+    uint32_t get_plugin_version() const override {
         return version_;
     }
 
-    plugin_type_e get_plugin_type() const {
+    plugin_type_e get_plugin_type() const override {
         return type_;
     }
 

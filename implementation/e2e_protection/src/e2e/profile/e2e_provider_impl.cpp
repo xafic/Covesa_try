@@ -73,6 +73,12 @@ e2e_provider_impl::~e2e_provider_impl()
 {
 }
 
+void* e2e_provider_impl::get_plugin_impl_ptr()
+{
+    auto e2e_provider_plugin =  dynamic_cast<e2e_provider *>(this);
+    return e2e_provider_plugin;
+}
+
 bool e2e_provider_impl::add_configuration(std::shared_ptr<cfg::e2e> config)
 {
     if (config->profile == "CRC8" || config->profile == "P01") {
